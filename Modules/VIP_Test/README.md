@@ -1,36 +1,36 @@
 <div align="center">
-  <img src="https://pan.samyyc.dev/s/VYmMXE" />
-  <h2><strong>VIP_Test</strong></h2>
-  <h3>No description.</h3>
+  <h2><strong>[VIP] Test</strong></h2>
+  <h3>Provides players with a timed trial VIP, tracking usage to prevent abuse.</h3>
 </div>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/build-passing-brightgreen" alt="Build Status">
-  <img src="https://img.shields.io/github/downloads/aga/VIP_Test/total" alt="Downloads">
-  <img src="https://img.shields.io/github/stars/aga/VIP_Test?style=flat&logo=github" alt="Stars">
+  <img src="https://img.shields.io/badge/SwiftlyS2-Module-blue" alt="Module">
   <img src="https://img.shields.io/github/license/aga/VIP_Test" alt="License">
 </p>
 
-## Getting Started (delete me)
+## Description
 
-1. **Edit `PluginMetadata` Attribute**  
-   - Set your plugin's `Id`, `Name`, `Version`, `Author` and `Description`.
-2. **Edit `VIP_Test.csproj`**  
-   - Set the `<AssemblyName>` property to match your plugin's main class name.
-   - Add any additional dependencies as needed.
-3. **Implement your plugin logic** in C#.
-   - Place your main plugin class in the root of the project.
-   - Use the SwiftlyS2 managed API to interact with the game and core.
-4. **Add resources**  
-   - Place any required files in the `gamedata`, `templates`, or `translations` folders as needed.
+A SwiftlyS2 VIPCore module that allows players to claim a free trial VIP. It uses the VIPCore cookie API to persistently track the number of times a player has used their trial and enforces a cooldown between uses.
 
-## Building
+## Configuration
 
-- Open the project in your preferred .NET IDE (e.g., Visual Studio, Rider, VS Code).
-- Build the project. The output DLL and resources will be placed in the `build/` directory.
-- The publish process will also create a zip file for easy distribution.
+The module is highly configurable. A `config.jsonc` file will be automatically generated inside `swiftly/configs/plugins/VIP_Test/` upon first load.
 
-## Publishing
+```jsonc
+{
+  // Whether the trial VIP feature is enabled
+  "VipTestEnabled": true,
+  // Duration of the trial VIP in seconds (Default: 3600 = 1 hour)
+  "VipTestDuration": 3600,
+  // Cooldown before a player can request another trial in seconds (Default: 86400 = 24 hours)
+  "VipTestCooldown": 86400,
+  // The VIP group name to assign when the trial is activated
+  "VipTestGroup": "group_name",
+  // The maximum number of times a single player can claim the trial VIP
+  "VipTestCount": 2
+}
+```
 
-- Use the `dotnet publish -c Release` command to build and package your plugin.
-- Distribute the generated zip file or the contents of the `build/publish` directory.
+## Commands
+
+- `!viptest` / `sw_viptest` - Claims a trial VIP. Displays cooldown or active duration if already claimed.
