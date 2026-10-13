@@ -19,7 +19,7 @@ using System.IO;
 
 namespace VIPCore;
 
-[PluginMetadata(Id = "VIPCore", Version = "1.1.5", Name = "VIPCore", Author = "aga", Description = "Core VIP management plugin ported to SwiftlyS2.")]
+[PluginMetadata(Id = "VIPCore", Version = "1.1.6", Name = "VIPCore", Author = "aga", Description = "Core VIP management plugin ported to SwiftlyS2.")]
 public sealed partial class VIPCore : BasePlugin
 {
     private VipConfig? _config;
@@ -84,6 +84,8 @@ public sealed partial class VIPCore : BasePlugin
                     if (vipUser != null)
                     {
                         var localizer = Core.Translation.GetPlayerLocalizer(player);
+                        var displayName = player.Controller?.PlayerName ?? playerName ?? "unknown";
+                        player.SendMessage(MessageType.Chat, localizer["vip.WelcomeToTheServer", displayName, vipUser.group]);
 
                         if (vipUser.expires == 0)
                         {
@@ -157,6 +159,7 @@ public sealed partial class VIPCore : BasePlugin
                     Core.Scheduler.NextTick(() =>
                     {
                         if (!player.IsValid) return;
+                        _vipCoreApi?.RaisePlayerRemoved(player, expiredGroup);
                         var localizer = Core.Translation.GetPlayerLocalizer(player);
                         player.SendMessage(MessageType.Chat, localizer["vip.Expired", expiredGroup]);
                     });
